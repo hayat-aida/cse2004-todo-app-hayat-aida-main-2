@@ -52,4 +52,21 @@ return result;
 }
 
 
+const input = document.getElementById('todo-input');
+const addButton = document.getElementById('add-todo');
+const todoList = document.getElementById('todo-list');
 
+async function renderTodos() {
+    const todos = await fetchTodos();
+    todoList.innerHTML = '';
+    for (const todo of todos) {
+        const li = document.createElement('li');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = todo.completed;
+        checkbox.addEventListener('change', async () => {
+            await updateTodo(todo.id, checkbox.checked);
+            renderTodos();
+        });
+
+        
